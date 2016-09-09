@@ -28,13 +28,30 @@ if __name__ == "__main__":
     theta = np.linalg.inv(X_training.T.dot(X_training)).dot(X_training.T).dot(Y_training)
 
     # check results
-    J = np.sum(((X_test.dot(theta)-Y_test)**2))/(2*m_test)
-    #J2 = np.sum(((X_training.dot(theta)-Y_training)**2))/(2*m_training)
-    #plt.plot(X[:,2],X[:,0],Y, 'ro')
+    J = np.sum((X_test.dot(theta)-Y_test)**2)/(2*m_test)
 
-    fig = plt.figure()
-    ax = fig.gca(projection='3d')
+    fig = plt.figure(figsize=(8, 8))
+    ax = fig.add_subplot(111, projection='3d')
 
-    ax.plot(X[:,2],X[:,0],zs=Y.flat, zdir='z', label='zs=0, zdir=z')
+    # visual result check
+    ax.scatter(X_training[:, 1],
+               X_training[:, 6],
+               Y_training,
+               marker='^',
+               color='red',
+               s=10,
+               alpha=0.85,
+               label='real data')
+
+    ax.scatter(X_training[:, 1],
+               X_training[:, 6],
+               X_training.dot(theta),
+               marker='x',
+               color='green',
+               s=10,
+               alpha=0.85,
+               label='prediction')
+
+    ax.set_zlabel('Strength')
+    plt.title('Concrete data set')
     plt.show()
-    v = 1
