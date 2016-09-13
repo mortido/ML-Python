@@ -7,9 +7,6 @@ import common as cm
 import gradient_descent as gd
 import normal_equation as ne
 
-GD_ITERATIONS = 400
-GD_ALPHA = 0.03
-
 
 if __name__ == "__main__":
     # CONCRETE DATA
@@ -26,14 +23,18 @@ if __name__ == "__main__":
 
     # find thetas
     ne_theta = ne.normal_equation(X_training, Y_training)
-    gd_theta = gd.gradient_descent(X_training, Y_training, GD_ALPHA, GD_ITERATIONS)
+    X_norm = np.ones(X_training.shape)
+    X_norm[:, 1:], x_mean, x_range = gd.normalize_features(X_training[:, 1:])
+    gd_theta = gd.gradient_descent(X_norm, Y_training, 1, 0.00001)
 
     print("[Normal equation] theta = ", ne_theta)
     print("[Gradient descent] theta = ", gd_theta)
 
     # check results
     ne_prediction = X_test.dot(ne_theta)
-    gd_prediction = X_test.dot(gd_theta)
+    X_test_norm = np.ones(X_test.shape)
+    X_test_norm[:, 1:], _, _ = gd.normalize_features(X_test[:, 1:], x_mean, x_range)
+    gd_prediction = X_test_norm.dot(gd_theta)
 
     exp, var = cm.check_result(Y_test, ne_prediction)
     print("[Normal equation] Expected value (error): ", exp)
@@ -42,7 +43,7 @@ if __name__ == "__main__":
     exp, var = cm.check_result(Y_test, gd_prediction)
     print("[Gradient descent] Expected value (error): ", exp)
     print("[Gradient descent] Variance: ", var)
-    '''
+
     fig = plt.figure(figsize=(10, 10))
     ax = fig.add_subplot(111, projection='3d')
 
@@ -81,7 +82,7 @@ if __name__ == "__main__":
     ax.set_ylabel('Coarse Aggregate (component 6)')
     ax.set_zlabel('Concrete compressive strength')
     plt.title('Concrete data set (2d projection)')
-    plt.show()'''
+    plt.show()
 
     # SYNTHETIC DATA
     print("Synthetic data test: f(x) = -0.5x + 3.5")
@@ -93,13 +94,11 @@ if __name__ == "__main__":
 
     ne_theta = ne.normal_equation(X, Y)
     X_norm = np.ones(X.shape)
-    X_norm[:, 1:], mean, std = gd.normalize_features(X[:, 1:])
-    gd_theta = gd.gradient_descent(X, Y, 0.1, 25)
-    gd_theta.
-
+    X_norm[:, 1:], x_mean, x_range = gd.normalize_features(X[:, 1:])
+    gd_theta = gd.gradient_descent(X_norm, Y, 1, 0.00001)
 
     ne_prediction = X.dot(ne_theta)
-    gd_prediction = X.dot(gd_theta)
+    gd_prediction = X_norm.dot(gd_theta)
 
     exp, var = cm.check_result(Y, ne_prediction)
     print("[Normal equation] Expected value (error): ", exp)
@@ -111,7 +110,7 @@ if __name__ == "__main__":
 
     plt.plot(X[:, 1], Y, 'go', alpha=0.7)
     real_line, = plt.plot(X[:, 1], Y_real, 'g', linewidth=2.0)
-    ne_line, = plt.plot(X[:, 1], ne_prediction, 'r', linewidth=2.0)
-    gd_line, = plt.plot(X[:, 1], gd_prediction, 'b', linewidth=2.0)
+    ne_line, = plt.plot(X[:, 1], ne_prediction, 'r', linewidth=3.0)
+    gd_line, = plt.plot(X[:, 1], gd_prediction, 'b', linewidth=1.0)
     plt.legend([real_line, ne_line, gd_line], ['Real', 'Normal equation', 'Gradient descent'])
     plt.show()
