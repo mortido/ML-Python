@@ -15,6 +15,7 @@ def gradient_descent(x, y, a, epsilon):
         print("Iter %d | Cost: %f" % (i, cost))
         if abs(prev_cost - cost) <= epsilon:
             return theta
+        prev_cost = cost
     return theta
 
 
