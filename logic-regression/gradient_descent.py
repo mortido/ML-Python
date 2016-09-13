@@ -3,6 +3,31 @@ import numpy as np
 MAX_ITERATIONS = 10000
 
 
+class NormalizationParams:
+    def __init__(self, mean, std):
+        self.mean = mean
+        self.std = std
+
+def calculate_sigmoid(X):
+    '''
+    Computes the sigmoid function
+    '''
+
+    return 1/(1-np.exp(-X))
+
+
+def calculate_cost(theta, X, Y):
+    '''
+    Calculates cost function for logistic regression.
+    '''
+
+    m = X.shape[0]
+    prediction = X.dot(theta)
+    sig = calculate_sigmoid(prediction)
+    return -Y.dot(np.log(sig))/m-(1-Y).dot(np.log(1-sig))
+
+
+
 def gradient_descent(x, y, a, epsilon):
     theta = np.zeros((x.shape[1], 1))
     m = x.shape[0]
@@ -11,21 +36,9 @@ def gradient_descent(x, y, a, epsilon):
     for i in range(0, MAX_ITERATIONS):
         gradient = x.T.dot(x.dot(theta)-y) / m
         theta = theta - a * gradient
-
-        # Cost calculation can take some time!
         cost = np.sum((x.dot(theta)-y) ** 2) / (2 * m)
         print("Iter %d | Cost: %f" % (i, cost))
         if abs(prev_cost - cost) <= epsilon:
             return theta
         prev_cost = cost
     return theta
-
-
-def normalize_features(x, x_mean=None, x_range=None):
-    if x_mean is None:
-        x_mean = x.mean(0)
-    if x_range is None:
-        x_range = x.max(0)-x.min(0)
-
-    x_norm = (x-x_mean) / x_range
-    return x_norm, x_mean, x_range
