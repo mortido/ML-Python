@@ -1,6 +1,6 @@
 import numpy as np
 
-MAX_ITERATIONS = 1000
+MAX_ITERATIONS = 10000
 
 
 def gradient_descent(x, y, a, epsilon):
