@@ -25,8 +25,8 @@ python run.py
 
 ## Linear regression
 
-To test implementation [Concrete Compressive Strength Data Set](https://archive.ics.uci.edu/ml/datasets/Concrete+Compressive+Strength) is used. Data set is devided on training and test subsets. 2D projection is used to visually show results.
-Also 1D synthetic data is generated to demonstrate more crearly how predictions will be looks like.
+To test implementation [Concrete Compressive Strength Data Set](https://archive.ics.uci.edu/ml/datasets/Concrete+Compressive+Strength) is used. Data set is divided on training and test subsets. 2D projection is used to visually show results.
+Also 1D synthetic data is generated to demonstrate more clearly how predictions will be looks like.
 
 **Results:**
 Normal equation and gradient descent works well on small data sets.
@@ -35,9 +35,9 @@ Gradient descent provides approximate solution but it can be more effective on l
 
 ## Logistical regression
 
-There is some randomly generated synthetic data to test algorithm with linear and polynominal models.
+There is some randomly generated synthetic data to test algorithm with linear and polynomial models.
 Real data set: [Haberman's Survival Data Set](https://archive.ics.uci.edu/ml/datasets/Haberman's+Survival)
 
 **Results:**
-With some twiking of params this implementation can have 75-80% accuracy on real dataset. main problem is that implementation of optimization algorithm (gradient descent) if falling in local minimum so another optimiation is required for better results.
-Regularization tests shows
+With some tweaking of params this implementation can have 75-80% accuracy on real dataset. Main problem is that implementation of optimization algorithm (gradient descent) if falling in local minimum so another optimization is required for better results.
+Regularization tests shows how underfitting and overfitting can affect final results.
