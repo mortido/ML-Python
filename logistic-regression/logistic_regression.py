@@ -68,9 +68,6 @@ class LogisticRegression(object):
             grad = grad / self.m
             self.theta -= alpha * grad
 
-            if print_log:
-                print("Iteration", i, "\tcost=", self.__cost(lam))
-
     def __combinations(self, cur_n, max_n, cur_i, max_i):
         out = []
         for i in range(cur_n, max_n):
